@@ -1,41 +1,40 @@
 #include <stdio.h>
 #include <string>
+#include <string.h>
 #include <vector>
 #include <iostream>
 using namespace std;
 
 int main()
 {
-	// Check for sorting method
+	// Store sorting method:
 	string sortingMethod;
 	cin >> sortingMethod;
 	cin.ignore();
 
-	// For each line, we will do the following:
-
-	// Step 1: Perform Cyclic Shifts
 	string line;
-
+	// For each line, we will do the following:
 	while (getline(cin, line))
 	{
-		vector<string> cyclicShifts;
+		// Step 1: Perform Cyclic Shifts
+		vector<string *> cyclicShifts; // Contains string pointers to each cyclic shift of the line.
 
-		// Keep original string.
+		// Keep the original string for later:
 		string originalString = line;
-		cout << "String: " << originalString << endl;
+		// cout << "String: " << originalString << endl;
 
-		// Generate all rotations one by one and print
-		// Shift letters in line.
-		int len = line.size();
-		char temp[len];
-		for (int i = 0; i < len; i++)
+		int length = line.size();
+		char shiftedLine[length];
+
+		for (int i = 0; i < length; i++)
 		{
-			int j = i; // Current index in line
-			int k = 0; // Current index in temp
+
+			int j = i; // Index in line
+			int k = 0; // Index in shiftedLine
 
 			while (line[j] != '\0')
 			{
-				temp[k] = line[j];
+				shiftedLine[k] = line[j];
 				k++;
 				j++;
 			}
@@ -43,50 +42,50 @@ int main()
 			j = 0;
 			while (j < i)
 			{
-				temp[k] = line[j];
+				shiftedLine[k] = line[j];
 				j++;
 				k++;
 			}
 
-			temp[k] = '\0';
+			// Important: Remember to add termination character!
+			shiftedLine[k] = '\0';
 
-			cyclicShifts.push_back(temp);
-			
+			// Push a new pointer to shiftedLine in cyclicShifts
+			cyclicShifts.push_back(new string(shiftedLine));		
 		}
 
-		cout << "Current Order:\n";
-		for (int j = 0; j < cyclicShifts.size(); j++)
-		{
-			cout << j << " " << cyclicShifts[j] << endl;
-		}
-		cout << endl;
 
 		// Step 2: Sorting the cyclic shifts.
+
+		// Insertion Sorting Method
 		if (sortingMethod == "insertion")
 		{
 			int i, j;
-			string key;
+			string *comparisionLine;
 
 			for (i = 1; i < cyclicShifts.size(); i++)
 			{
-				key = cyclicShifts[i];
+				comparisionLine = cyclicShifts[i];
+
 				j = i - 1;
 
-				while (j >= 0 && cyclicShifts[j] > key)
+				while (j >= 0 && *cyclicShifts[j] > *comparisionLine)
 				{
 					cyclicShifts[j + 1] = cyclicShifts[j];
 					j = j - 1;
 				}
-				cyclicShifts[j + 1] = key;
+
+				cyclicShifts[j + 1] = comparisionLine;
 			}
 
-			cout << "Sorted Order:\n";
-			for (int j = 0; j < cyclicShifts.size(); j++)
-			{
-				cout << j << " " << cyclicShifts[j] << endl;
-			}
-			cout << endl;
+			// cout << "Sorted Order:\n";
+			// for (int j = 0; j < cyclicShifts.size(); j++)
+			// {
+			// 	cout << j << " " << *cyclicShifts[j] << endl;
+			// }
+			// cout << endl;
 		}
+		// Merge Sorting Algorithm
 		else if (sortingMethod == "merge")
 		{
 			// Merge Sort Algorithm
@@ -97,55 +96,69 @@ int main()
 		}
 
 		// Step 3: Find index of original string and create string with ending characters.
-		int index;
-		int endIndex = line.size() - 1;
-		string last;
+		int index; // Index of original string.
+		int endIndex = line.size() - 1; // Index of last letter of line.
+		string last; // String of the last letters of each cyclic shifted line.
 
 		for (int k = 0; k < cyclicShifts.size(); k++)
 		{
-			if (cyclicShifts[k] == originalString)
+			// Finding the index of the original string.
+			if (*cyclicShifts[k] == originalString)
 			{
 				index = k;
 			}
 
-			last.push_back(cyclicShifts[k][endIndex]);
+			// Add the last character of the string to last.
+			last.push_back((*cyclicShifts[k])[endIndex]);
 		}
 
 		// Step 4: Print index and find the clusters.
-		cout << "Answer:\n";
+		// cout << "Answer:\n";
 		cout << index << endl;
 
-		char compareChar, currentChar;
-		int count = 1;
-		int lastIndex = 0;
+		char compareChar; // The current character we are counting.
+		char currentChar; // The current character we are checking to see if it is a cluster with compareChar.
+		int count = 0; // Size of cluster.
+		int lastIndex = 0; // Index of the last string.
 
 		while (lastIndex < last.size())
 		{
 			compareChar = last[lastIndex];
 			currentChar = last[lastIndex + 1];
+
+			// If the next character is part of the current cluster:
 			if (compareChar == currentChar)
 			{
 				count += 1;
 			}
+
+			// Else, print out the cluser size and continue traversing through the string.
 			else
 			{
 				if ((lastIndex + 1) == last.size())
 				{
+					count += 1;
 					cout << count << " " << compareChar << endl;
 				}
 				else
 				{
+					count += 1;
 					cout << count << " " << compareChar << " ";
-					count = 1;
+					count = 0;
 				}
 			}
 			lastIndex++;
+		}
+
+		// Special Case: It is just a blank line.
+		if (count == 0) {
+			cout << '\n';
 		}
 
 		// Step 5: Clear for next line
 		cyclicShifts.clear();
 		last.clear();
 		index = 0;
-		len = 0;
+		length = 0;
 	}
 }
