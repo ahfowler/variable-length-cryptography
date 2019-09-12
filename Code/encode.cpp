@@ -24,10 +24,9 @@ int main()
 		string originalString = line;
 		cout << "String: " << originalString << endl;
 
+		// Generate all rotations one by one and print
 		// Shift letters in line.
 		int len = line.size();
-
-		// Generate all rotations one by one and print
 		char temp[len];
 		for (int i = 0; i < len; i++)
 		{
@@ -49,7 +48,10 @@ int main()
 				k++;
 			}
 
+			temp[k] = '\0';
+
 			cyclicShifts.push_back(temp);
+			
 		}
 
 		cout << "Current Order:\n";
@@ -101,7 +103,7 @@ int main()
 
 		for (int k = 0; k < cyclicShifts.size(); k++)
 		{
-			if (cyclicShifts[k].compare(originalString) == 0)
+			if (cyclicShifts[k] == originalString)
 			{
 				index = k;
 			}
