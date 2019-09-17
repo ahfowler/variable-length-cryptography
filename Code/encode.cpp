@@ -5,12 +5,10 @@
 #include <iostream>
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
 	// Store sorting method:
-	string sortingMethod;
-	cin >> sortingMethod;
-	cin.ignore();
+	string sortingMethod = argv[1];
 
 	string line;
 	// For each line, we will do the following:
