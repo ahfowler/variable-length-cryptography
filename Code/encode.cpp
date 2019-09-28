@@ -3,6 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <iostream>
+#include "mergesort.h"
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -49,9 +50,8 @@ int main(int argc, char *argv[])
 			shiftedLine[k] = '\0';
 
 			// Push a new pointer to shiftedLine in cyclicShifts
-			cyclicShifts.push_back(new string(shiftedLine));		
+			cyclicShifts.push_back(new string(shiftedLine));
 		}
-
 
 		// Step 2: Sorting the cyclic shifts.
 
@@ -86,7 +86,14 @@ int main(int argc, char *argv[])
 		// Merge Sorting Algorithm
 		else if (sortingMethod == "merge")
 		{
-			// Merge Sort Algorithm
+			mergeSort(cyclicShifts, 0, length);
+
+			// cout << "Sorted Order:\n";
+			// for (int j = 0; j < cyclicShifts.size(); j++)
+			// {
+			// 	cout << j << " " << *cyclicShifts[j] << endl;
+			// }
+			// cout << endl;
 		}
 		else
 		{
@@ -94,9 +101,9 @@ int main(int argc, char *argv[])
 		}
 
 		// Step 3: Find index of original string and create string with ending characters.
-		int index; // Index of original string.
+		int index;						// Index of original string.
 		int endIndex = line.size() - 1; // Index of last letter of line.
-		string last; // String of the last letters of each cyclic shifted line.
+		string last;					// String of the last letters of each cyclic shifted line.
 
 		for (int k = 0; k < cyclicShifts.size(); k++)
 		{
@@ -114,9 +121,9 @@ int main(int argc, char *argv[])
 		// cout << "Answer:\n";
 		cout << index << endl;
 
-		char compareChar; // The current character we are counting.
-		char currentChar; // The current character we are checking to see if it is a cluster with compareChar.
-		int count = 0; // Size of cluster.
+		char compareChar;  // The current character we are counting.
+		char currentChar;  // The current character we are checking to see if it is a cluster with compareChar.
+		int count = 0;	 // Size of cluster.
 		int lastIndex = 0; // Index of the last string.
 
 		while (lastIndex < last.size())
@@ -149,7 +156,8 @@ int main(int argc, char *argv[])
 		}
 
 		// Special Case: It is just a blank line.
-		if (count == 0) {
+		if (count == 0)
+		{
 			cout << '\n';
 		}
 

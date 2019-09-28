@@ -4,12 +4,9 @@ encode: encode.cpp
 decode: decode.cpp
 	g++ -o decode decode.cpp
 
-test: encode.cpp chicken-sandwich-vox.txt haiku1.txt tale-of-two-cities.txt through-the-looking-glass.txt
+test: encode.cpp input.txt
 	g++ -o encode encode.cpp
-	./encode < chicken-sandwich-vox.txt > output1.txt
-	./encode < haiku1.txt > output2.txt
-	./encode < tale-of-two-cities.txt > output3.txt
-	./encode < through-the-looking-glass.txt > output4.txt
+	./encode merge < input.txt > encoded.txt
 
 clean:
-	$(RM) encode decode output1.txt output2.txt output3.txt output4.txt
+	$(RM) encode decode encoded.txt decoded.txt
