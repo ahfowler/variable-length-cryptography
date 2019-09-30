@@ -6,95 +6,80 @@
 #include <cmath>
 using namespace std;
 
-void merge(vector<string *> array, int l, int m, int r)
+vector<string *> merge(vector<string *> firstHalf, vector<string *> secondHalf)
 {
-    int i, j, k;
-    int firstHalfSize = m - l + 1;
-    int secondHalfSize = r - m;
+    vector<string *> result;
 
-    vector<string *> firstHalf;
-    vector<string *> secondHalf;
-
-    for (i = 0; i < firstHalfSize; i++)
-        firstHalf.push_back(array[l + i]);
-    for (j = 0; j < secondHalfSize; j++)
-        secondHalf.push_back(array[m + 1 + j]);
-
-    // firstHalf = A[l...m]
-    cout << "firstHalf is ";
-    for (i = 0; i < firstHalfSize; i++)
-        cout << *firstHalf[i] << " ";
-    cout << endl;
-    // secondHalf = A[m+1...r]
-    cout << "secondHalf is ";
-    for (i = 0; i < secondHalfSize; i++)
-        cout << *secondHalf[i] << " ";
-    cout << endl;
-
-    i = 0;
-    j = 0;
-
-    // while (i < firstHalfSize && j < secondHalfSize)
-    // {
-    //     if ((*firstHalf[i]) <= (*secondHalf[j]))
-    //     {
-    //         cout << (*firstHalf[i]) << " is less than " << (*secondHalf[j]) << " by " << (*firstHalf[i]).compare((*secondHalf[j])) << endl;
-    //         array[k] = firstHalf[i];
-    //         i++;
-    //     }
-    //     else
-    //     {
-    //         cout << (*firstHalf[i]) << " is greater than " << (*secondHalf[j]) << " by " << (*firstHalf[i]).compare((*secondHalf[j])) << endl;
-    //         array[k] = secondHalf[j];
-    //         j++;
-    //     }
-    //     k++;
-    // }
-
-    // while (i < firstHalfSize)
-    // {
-    //     array[k] = firstHalf[i];
-    //     i++;
-    //     k++;
-    // }
-
-    // while (j < secondHalfSize)
-    // {
-    //     array[k] = secondHalf[j];
-    //     j++;
-    //     k++;
-    // }
-
-    for (int k = l; k < r; k++)
+    while (!firstHalf.empty() && !secondHalf.empty())
     {
-        if ((*firstHalf[i]) <= (*secondHalf[j]))
+        string *x = firstHalf[0];
+        string *y = secondHalf[0];
+
+        // cout << "Comparing " << *x << " and " << *y << endl;
+
+        if (*x <= *y)
         {
-            cout << (*firstHalf[i]) << " is less than " << (*secondHalf[j]) << " by " << (*firstHalf[i]).compare((*secondHalf[j])) << endl;
-            array[k] = firstHalf[i];
-            i++;
+            result.push_back(x);
+            firstHalf.erase(firstHalf.begin());
         }
         else
         {
-            cout << (*firstHalf[i]) << " is greater than " << (*secondHalf[j]) << " by " << (*firstHalf[i]).compare((*secondHalf[j])) << endl;
-            cout << "Inserting " << *secondHalf[j] << " at " << k << endl;
-            array[k] = secondHalf[j];
-            j++;
+            result.push_back(y);
+            secondHalf.erase(secondHalf.begin());
         }
     }
 
-    firstHalf.clear();
-    secondHalf.clear();
+    while (!firstHalf.empty())
+    {
+        // cout << "Pushing " << *firstHalf[0] << endl;
+        result.push_back(firstHalf[0]);
+        firstHalf.erase(firstHalf.begin());
+    }
+
+    while (!secondHalf.empty())
+    {
+        // cout << "Pushing " << *secondHalf[0] << endl;
+        result.push_back(secondHalf[0]);
+        secondHalf.erase(secondHalf.begin());
+    }
+
+    // cout << "Current Result: \n";
+    // for (int j = 0; j < result.size(); j++)
+    // {
+    //     cout << j << " " << *result[j] << endl;
+    // }
+    // cout << endl;
+
+    return result;
 }
 
-void mergeSort(vector<string *> array, int l, int r)
+vector<string *> mergeSort(vector<string *> array, int l, int r)
 {
     if (l < r)
     {
         int m = floor((l + r) / 2);
-        cout << "mid is " << floor((l + r) / 2) << endl;
-        mergeSort(array, l, m);
-        mergeSort(array, m + 1, r);
-        cout << "merging with " << l << " " << floor((l + r) / 2) << " " << r << endl;
-        merge(array, l, m, r);
+        vector<string *> firstHalf = mergeSort(array, l, m);
+
+        // cout << "Current FirstHalf: \n";
+        // for (int j = 0; j < firstHalf.size(); j++)
+        // {
+        //     cout << j << " " << *firstHalf[j] << endl;
+        // }
+        // cout << endl;
+
+        vector<string *> secondHalf = mergeSort(array, m + 1, r);
+
+        // cout << "Current SecondHalf: \n";
+        // for (int j = 0; j < secondHalf.size(); j++)
+        // {
+        //     cout << j << " " << *secondHalf[j] << endl;
+        // }
+        // cout << endl;
+
+        return merge(firstHalf, secondHalf);
     }
+
+    vector<string *> firstHalf;
+    firstHalf.push_back(array[l]);
+    return firstHalf;
 }

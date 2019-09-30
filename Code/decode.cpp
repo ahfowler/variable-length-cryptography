@@ -84,7 +84,25 @@ int main(int argc, char *argv[])
         }
         else if (sortingMethod == "merge")
         {
-            // Sort last with merge.
+            vector<string *> lastVector;
+            for (int i = 0; i < last.size(); i++)
+            {
+                lastVector.push_back(new string(1, last[i]));
+            }
+
+            if (!lastVector.empty())
+            {
+                lastVector = mergeSort(lastVector, 0, last.length() - 1);
+
+                for (int i = 0; i < last.size(); i++)
+                {
+                    first += (*lastVector[i])[0];
+                }
+            }
+            else
+            {
+                first = "";
+            }
         }
         else
         {

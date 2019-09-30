@@ -86,22 +86,24 @@ int main(int argc, char *argv[])
 		// Merge Sorting Algorithm
 		else if (sortingMethod == "merge")
 		{
+			// cout << "Current Order: \n";
+			// for (int j = 0; j < cyclicShifts.size(); j++)
+			// {
+			// 	cout << j << " " << *cyclicShifts[j] << endl;
+			// }
+			// cout << endl;
 
-			cout << "Current Order: \n";
-			for (int j = 0; j < cyclicShifts.size(); j++)
+			if (!cyclicShifts.empty())
 			{
-				cout << j << " " << *cyclicShifts[j] << endl;
+				cyclicShifts = mergeSort(cyclicShifts, 0, length - 1);
 			}
-			cout << endl;
 
-			mergeSort(cyclicShifts, 0, length - 1);
-
-			cout << "Sorted Order:\n";
-			for (int j = 0; j < cyclicShifts.size(); j++)
-			{
-				cout << j << " " << *cyclicShifts[j] << endl;
-			}
-			cout << endl;
+			// cout << "Sorted Order:\n";
+			// for (int j = 0; j < cyclicShifts.size(); j++)
+			// {
+			// 	cout << j << " " << *cyclicShifts[j] << endl;
+			// }
+			// cout << endl;
 		}
 		else
 		{
