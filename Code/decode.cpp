@@ -3,6 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include "mergesort.h"
 
 using namespace std;
@@ -25,23 +26,35 @@ int main(int argc, char *argv[])
     string sortingMethod = argv[1];
 
     string indexString;
-    while (cin >> indexString)
+    while (getline(cin, indexString))
     {
         int index = stoi(indexString);
-        // cout << "entered with " + indexString + "\n";
+
         // Step 2: Generate last string.
         string last, first;
         int count;
         char letter;
+        string encodedLine;
+        getline(cin, encodedLine);
+        stringstream ss(encodedLine);
+        // cout << encodedLine << endl;
+        // cout << encodedLine.size() << endl;
 
-        while (cin >> count && count != '\0')
+        for (int i = 2; i < encodedLine.size(); i += 4)
         {
-            cin >> letter;
+            ss >> count;
+            ss.get();
+            letter = ss.get();
+
+            // cout << "Count: " << count << endl;
+            // cout << "Letter: " << letter << endl;
             for (int j = 0; j < count; j++)
             {
                 last.push_back(letter);
             }
         }
+
+        // cout << "Exited with: " << count << endl;
 
         // Step 3: Sort the last string and store into the first string.
         if (sortingMethod == "insertion")
@@ -99,12 +112,13 @@ int main(int argc, char *argv[])
 
         // Step 5: Construct the original string.
         int x = next[index];
+        string originalString;
         for (i = 0; i < first.size(); i++)
         {
-            putchar(last[x]);
+            originalString.push_back(last[x]);
             x = next[x];
         }
-
-        count = 0;
+        originalString.push_back('\n');
+        cout << originalString;
     }
 }
