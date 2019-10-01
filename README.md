@@ -9,7 +9,7 @@ Implementation of a variable-length encoding and decoding scheme.
 **Lecture:** TTH at 10:30am
 
 ### How to Use
-There is a makefile with five commands.
+There is a makefile with four tests.
 
 Running `encode` with text files:
 
@@ -24,11 +24,15 @@ make decode
 ./decode < yourInput.txt > yourOutput.txt
 ```
 
-Running the default test:
+Running the default tests:
 ```
-make test
+make insertionTest
+make mergeTest
+make mixedTest
+make encodingTest
 ```
-This test will run both encode and decode and check to see if the input to encode equals the output from decode.
+insertionTest and mergeTest run both encode and decode with the appropriate sorting method and compares the original text with the decoded output.
+encodingTest runs encode with merge and insertion sort and compared both encoding outputs.
 
 Remove the `encode` and `decode` executable files:
 ```
