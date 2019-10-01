@@ -3,7 +3,6 @@
 #include <string.h>
 #include <vector>
 #include <iostream>
-#include <sstream>
 #include "mergesort.h"
 
 using namespace std;
@@ -28,29 +27,46 @@ int main(int argc, char *argv[])
     string indexString;
     while (getline(cin, indexString))
     {
+        // cout << "Entered with indexString " << indexString << endl;
         int index = stoi(indexString);
 
         // Step 2: Generate last string.
         string last, first;
         int count;
         char letter;
-        string encodedLine;
-        getline(cin, encodedLine);
-        stringstream ss(encodedLine);
         // cout << encodedLine << endl;
         // cout << encodedLine.size() << endl;
 
-        for (int i = 2; i < encodedLine.size(); i += 4)
+        // Format: 1 c 34  3 f
+        char word = cin.get();
+        if (word == '\n')
         {
-            ss >> count;
-            ss.get();
-            letter = ss.get();
-
-            // cout << "Count: " << count << endl;
-            // cout << "Letter: " << letter << endl;
-            for (int j = 0; j < count; j++)
+            // Nothing
+        }
+        else
+        {
+            cin.putback(word);
+            while (cin >> count)
             {
-                last.push_back(letter);
+                // cout << "Entered else with " << count << endl;
+                cin.get();
+                letter = cin.get();
+
+                // cout << "Count: " << count << endl;
+                // cout << "Letter: " << letter << endl;
+
+                for (int j = 0; j < count; j++)
+                {
+                    last.push_back(letter);
+                }
+
+                char possibleNewLine = cin.get();
+                // cout << possibleNewLine;
+                if (possibleNewLine == '\n')
+                {
+                    // cout << "Reached end of line." << endl;
+                    break;
+                }
             }
         }
 
