@@ -6,6 +6,8 @@
 #include "mergesort.h"
 using namespace std;
 
+vector<double> average;
+
 int main(int argc, char *argv[])
 {
 	// Store sorting method:
@@ -20,7 +22,6 @@ int main(int argc, char *argv[])
 
 		// Keep the original string for later:
 		string originalString = line;
-		// cout << "String: " << originalString << endl;
 
 		int length = line.size();
 		char shiftedLine[length];
@@ -128,15 +129,15 @@ int main(int argc, char *argv[])
 		}
 
 		// Step 4: Print index and find the clusters.
-		// cout << "Answer:\n";
 		cout << index << endl;
 
 		char compareChar;  // The current character we are counting.
 		char currentChar;  // The current character we are checking to see if it is a cluster with compareChar.
 		int count = 0;	 // Size of cluster.
 		int lastIndex = 0; // Index of the last string.
+		int clusterCount = 0;
 
-		while (lastIndex < last.size())
+		while (lastIndex < last.size()) // O(n)
 		{
 			compareChar = last[lastIndex];
 			currentChar = last[lastIndex + 1];
@@ -154,11 +155,13 @@ int main(int argc, char *argv[])
 				{
 					count += 1;
 					cout << count << " " << compareChar << endl;
+					clusterCount += 1;
 				}
 				else
 				{
 					count += 1;
 					cout << count << " " << compareChar << " ";
+					clusterCount += 1;
 					count = 0;
 				}
 			}
